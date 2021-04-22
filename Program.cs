@@ -12,14 +12,14 @@ namespace Datos_V1._0._0
         static void Main(string[] args)
         {
 
-            string[] datos = new string[4];
-            string[] outputs = new string[4] { "Ingrese el nombre", "Ingrese el apellido", "Ingrese la cedula", "Ingrese la edad" };
-            string[] header = new string[] { "Nombre:", "Apellido:", "Cedula:", "Edad:" };
+            string[] datos = new string[7];
+            string[] outputs = new string[7] { "Ingrese el nombre", "Ingrese el apellido", "Ingrese la cedula", "Ingrese la edad", "Ingrese los ahorros", "Ingrese la contraseña", "Confirme la contraseña" };
+            string[] header = new string[] { "Nombre:", "Apellido:", "Cedula:", "Edad:" , "Ahorros:"};
 
             string valorConfirmacion = "";
             string direccion = args[0];
 
-
+            
             ProgramManager(datos, outputs, valorConfirmacion, direccion, header);
             // Aqui abajo terminar
 
@@ -50,24 +50,42 @@ namespace Datos_V1._0._0
         {
 
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 7; i++)
             {
                 Console.WriteLine(outputss[i]);
-                datoss[i] = Console.ReadLine();
+                if (i == 0 || i == 1)
+                {
+                    datoss[i] = IntroducirNombre();
+                    Console.Write(System.Environment.NewLine);
+                }
+                else if(i == 2 || i == 3)
+                {
+                    datoss[i] = IntroducirEdad();
+                    Console.Write(System.Environment.NewLine);
+                }
+                else if (i == 4)
+                {
+                    datoss[i] = IntroducirAhorros();
+                    Console.Write(System.Environment.NewLine);
+                }
+                else if(i == 5 ||i == 6)
+                {
+                    datoss[i] = IntroducirPassword();
+                    Console.Write(System.Environment.NewLine);
+                }
+
             }
 
 
-            Console.WriteLine("¿Desea que se guarden sus datos? Y/N");
-            valorConfirmacionn = Console.ReadLine();
+           
 
-            if (valorConfirmacionn.ToUpper() == "Y")
+            if (datoss[5] == datoss[6])
             {
                 EscribirValores(direction, headerss, datoss);
             }
-            else if (valorConfirmacionn.ToUpper() == "N")
+            else
             {
-
-                Console.WriteLine("No se guardarán sus datos");
+                Console.WriteLine("Contraseña incorrecta, no se guardarán sus datos");
             }
 
 
@@ -88,11 +106,11 @@ namespace Datos_V1._0._0
         }
 
 
-        
+
 
         public static void EscribirValores(string direccionn, string[] headers, string[] datoss)
         {
-           
+
 
             if (File.Exists(direccionn) == true)
             {
@@ -100,11 +118,11 @@ namespace Datos_V1._0._0
                 using (StreamWriter writer = new StreamWriter(direccionn, append: true))
                 {
 
-                    
+
                     writer.Write(System.Environment.NewLine);
 
                     writer.Write(AñadirEspacio(3) + datoss[0] + ",");
-                    for (int x = 0; x < 3; x++)
+                    for (int x = 0; x < 4; x++)
                     {
                         writer.Write(AñadirEspacio(3 + headers[x].Length - datoss[x].Length) + datoss[x + 1] + ",");
 
@@ -120,19 +138,19 @@ namespace Datos_V1._0._0
 
                 using (StreamWriter writer = new StreamWriter(direccionn, append: true))
                 {
-                    for (int x = 0; x < 4; x++)
+                    for (int x = 0; x < 5; x++)
                     {
                         writer.Write("   " + headers[x]);
 
                     }
 
 
-                   
+
                     writer.Write(System.Environment.NewLine);
 
                     writer.Write(AñadirEspacio(3) + datoss[0] + ",");
 
-                    for (int y = 0; y < 3; y++)
+                    for (int y = 0; y < 4; y++)
                     {
                         writer.Write(AñadirEspacio(3 + headers[y].Length - datoss[y].Length) + datoss[y + 1] + ",");
                     }
@@ -250,7 +268,7 @@ namespace Datos_V1._0._0
             Console.WriteLine("Introduzca el número de cédula de la persona que desea editar");
             string x = Console.ReadLine();
             int linea = 0;
-            
+
             List<string> fileString = new List<string>();
 
 
@@ -264,7 +282,7 @@ namespace Datos_V1._0._0
                     linea = reader.ReadLine().IndexOf(x);
                     if (linea > -1)
                     {
-                        
+
 
                         IntroducirValoresParaEditar(datoss, outputss, valorConfirmacionn, headerss, fileString, y);
                     }
@@ -275,7 +293,7 @@ namespace Datos_V1._0._0
 
                 }
 
-                
+
 
             }
 
@@ -300,7 +318,7 @@ namespace Datos_V1._0._0
             Console.WriteLine("Introduzca el número de cédula de la persona que desea eliminar");
             string x = Console.ReadLine();
             int linea = 0;
-            
+
             List<string> fileString = new List<string>();
 
 
@@ -316,7 +334,7 @@ namespace Datos_V1._0._0
                     {
 
                         //No hacer nada
-                        
+
                     }
                     else
                     {
@@ -325,7 +343,7 @@ namespace Datos_V1._0._0
 
                 }
 
-                
+
 
             }
 
@@ -339,49 +357,321 @@ namespace Datos_V1._0._0
             }
 
         }
-
+        
         public static void IntroducirValoresParaEditar(string[] datoss, string[] outputss, string valorConfirmacionn, string[] headers, List<string> archivoEntero, string lineaPorDefecto)
         {
             string devuelta = "";
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 7; i++)
             {
                 Console.WriteLine(outputss[i]);
-                datoss[i] = Console.ReadLine();
-                
-            }
-
-            
-            
-
-                devuelta += AñadirEspacio(3) + datoss[0] + ",";
-                for (int x = 0; x < 3; x++)
+                if (i == 0 || i == 1)
                 {
-                    devuelta += AñadirEspacio(3 + headers[x].Length - datoss[x].Length) + datoss[x + 1] + ",";
-
+                    datoss[i] = IntroducirNombre();
+                    Console.Write(System.Environment.NewLine);
+                }
+                else if (i == 2 || i == 3)
+                {
+                    datoss[i] = IntroducirEdad();
+                    Console.Write(System.Environment.NewLine);
+                }
+                else if (i == 4)
+                {
+                    datoss[i] = IntroducirAhorros();
+                    Console.Write(System.Environment.NewLine);
+                }
+                else if(i == 5 || i == 6)
+                {
+                    datoss[i] = IntroducirPassword();
+                    Console.Write(System.Environment.NewLine);
                 }
 
+            }
+
+
+
+
+            devuelta += AñadirEspacio(3) + datoss[0] + ",";
+            for (int x = 0; x < 4; x++)
+            {
+                devuelta += AñadirEspacio(3 + headers[x].Length - datoss[x].Length) + datoss[x + 1] + ",";
+
+            }
+
+
+
             
 
-            Console.WriteLine("¿Desea que se guarden sus datos? Y/N");
-            valorConfirmacionn = Console.ReadLine();
-
-            if (valorConfirmacionn.ToUpper() == "Y")
+            if (datoss[5] == datoss[6])
             {
                 archivoEntero.Add(devuelta);
             }
-            else if (valorConfirmacionn.ToUpper() == "N")
+            else
             {
 
-                Console.WriteLine("No se guardarán los cambios");
+                Console.WriteLine("Contraseña incorrecta, no se guardarán los cambios");
                 archivoEntero.Add(lineaPorDefecto);
-                
+
 
             }
 
-            
+
         }
 
-        
+        public static string IntroducirNombre()
+        {
+            string valorDevuelto = "";
+            List<char> nombre = new List<char>();
+            ConsoleKeyInfo x = new ConsoleKeyInfo();
+
+            for (x = Console.ReadKey(true); x.Key != ConsoleKey.Enter; x = Console.ReadKey(true))
+            {
+                if (x.Key == ConsoleKey.Backspace)
+                {
+                    Stream h = Console.OpenStandardOutput();
+
+                    using (StreamWriter g = new StreamWriter(h))
+                    {
+                        g.Write("\b \b");
+                        if (nombre.Count != 0)
+                        {
+                            nombre.RemoveAt(nombre.Count - 1);
+                        }
+
+
+
+                    }
+
+                }
+                else
+                {
+                    if (x.Key != ConsoleKey.D0 && x.Key != ConsoleKey.D1 && x.Key != ConsoleKey.D2 && x.Key != ConsoleKey.D3 && x.Key != ConsoleKey.D4 && x.Key != ConsoleKey.D5 && x.Key != ConsoleKey.D6
+                        && x.Key != ConsoleKey.D7 && x.Key != ConsoleKey.D8 && x.Key != ConsoleKey.D9)
+                    {
+                        Console.Write(x.KeyChar);
+
+
+                        nombre.Add(x.KeyChar);
+                    }
+
+
+
+
+
+
+
+                }
+
+            }
+
+
+            foreach (char z in nombre)
+            {
+                valorDevuelto += z;
+            }
+
+            return valorDevuelto;
+
+
+        }
+
+        public static string IntroducirPassword()
+        {
+
+            string valorDevuelto = "";
+            List<char> password = new List<char>();
+            ConsoleKeyInfo x = new ConsoleKeyInfo();
+
+            for (x = Console.ReadKey(true); x.Key != ConsoleKey.Enter; x = Console.ReadKey(true))
+            {
+                if (x.Key == ConsoleKey.Backspace)
+                {
+                    Stream h = Console.OpenStandardOutput();
+
+                    using (StreamWriter g = new StreamWriter(h))
+                    {
+                        g.Write("\b \b");
+                        if (password.Count != 0)
+                        {
+                            password.RemoveAt(password.Count - 1);
+                        }
+
+
+
+                    }
+
+                }
+                else
+                {
+                    Console.Write('*');
+
+
+                    password.Add(x.KeyChar);
+
+
+
+
+
+
+                }
+
+            }
+
+
+            foreach (char z in password)
+            {
+                valorDevuelto += z;
+            }
+
+            return valorDevuelto;
+
+        }
+
+        public static string IntroducirEdad()
+        {
+            ConsoleKeyInfo x = new ConsoleKeyInfo();
+            List<char> edadChar = new List<char>();
+            string edad = "";
+            for (x = Console.ReadKey(true); x.Key != ConsoleKey.Enter; x = Console.ReadKey(true))
+            {
+                switch (x.Key)
+                {
+                    case ConsoleKey.D0:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+                    case ConsoleKey.D1:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.D2:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.D3:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.D4:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.D5:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.D6:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.D7:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.D8:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.D9:
+                        Console.Write(x.KeyChar);
+                        edadChar.Add(x.KeyChar);
+                        break;
+
+                    case ConsoleKey.Backspace:
+                        Console.Write("\b \b");
+                        if (edadChar.Count != 0)
+                        {
+                            edadChar.RemoveAt(edadChar.Count - 1);
+                        }
+
+                        break;
+
+
+                }
+
+                
+            }
+
+            foreach (char y in edadChar)
+            {
+                edad += y;
+            }
+
+
+            return edad;
+        }
+
+
+        public static string IntroducirAhorros()
+        {
+            string ahorrosStr = "";
+            double ahorros = 0f;
+            int contadorPunto = 0;
+            char datoAnterior = ' ';
+
+            Stream x = Console.OpenStandardOutput();
+
+            using (StreamWriter h = new StreamWriter(x))
+            {
+                ConsoleKeyInfo keyInfo = new ConsoleKeyInfo();
+
+                for (keyInfo = Console.ReadKey(true); keyInfo.Key != ConsoleKey.Enter; keyInfo = Console.ReadKey(true))
+                {
+                    if (keyInfo.Key == ConsoleKey.Backspace)
+                    {
+                        ahorrosStr.Remove(ahorrosStr.Length - 1);
+                        Console.Write("\b \b");
+
+                        if (datoAnterior == '.')
+                        {
+                            contadorPunto = 0;
+                        }
+                    }
+                    else
+                    {
+                        if (keyInfo.KeyChar == '.' && contadorPunto != 1)
+                        {
+                            contadorPunto = 1;
+                            Console.Write('.');
+                            datoAnterior = keyInfo.KeyChar;
+                            ahorrosStr += keyInfo.KeyChar.ToString();
+                        }
+
+                        if (contadorPunto != 1)
+                        {
+                            Console.Write(keyInfo.KeyChar);
+                            ahorrosStr += keyInfo.KeyChar.ToString();
+                            datoAnterior = keyInfo.KeyChar;
+
+                        }
+                        else
+                        {
+                            if (keyInfo.KeyChar == '.')
+                            {
+
+                                // No hacer nada 
+                            }
+                            else
+                            {
+                                Console.Write(keyInfo.KeyChar);
+                                ahorrosStr += keyInfo.KeyChar.ToString();
+                                datoAnterior = keyInfo.KeyChar;
+                            }
+                        }
+                    }
+                }
+            }
+
+            ahorros = double.Parse(ahorrosStr);
+            return "RD: " + Math.Round(ahorros, 2).ToString();
+        }
     }
 }
